@@ -1,0 +1,191 @@
+# MAINTAINER "CLARIN.SI <info@clarin.si>"		#manatee@clarin
+MAINTAINER "Tomaž Erjavec <tomaz.erjavec@ijs.si>"	#manatee@ijs
+# MAINTAINER "Tomaž Erjavec <tomaz.erjavec@ijs.si>"	#manatee@cjvt
+NAME "ssj500k v2.2"
+INFO "Ročno označeni korpus ssj500k v2.2 (oblikoskladnja, skladnja, imenske entitete, glagolske večbesedne enote, udeleženske vloge) // Slovene manually annotated corpus ssj500k v2.2 (morphosyntax, syntax, named entities, verbal multiword expressions, semantic roles)"
+ENCODING "UTF-8"
+LOCALE "sl_SI.UTF-8"
+DEFAULTLOCALE "sl_SI.UTF-8"
+LANGUAGE "Slovenian"
+INFOHREF "http://www.slovenscina.eu/tehnologije/ucni-korpus"
+TAGSETDOC "http://nl.ijs.si/ME/V5/msd/html/msd-sl.html#msd.msds-sl"
+
+# PATH "/data/manatee-data/ssj500k22/"					#manatee@clarin
+PATH "/project/corpora/noske/data/ssj500k22/"				#manatee@ijs
+# PATH "/var/lib/ske/manatee/ssj500k22/"				#manatee@cjvt
+
+# VERTICAL "| zcat /project/corpora/vert/ssj500k22.vert.gz"        	#manatee@clarin
+VERTICAL "| zcat /project/cqp/vert/ssj500k22.vert.gz"			#manatee@ijs
+# VERTICAL "| zcat /var/lib/ske/vertical/ssj500k22.vert.gz"		#manatee@cjvt
+
+
+# WSDEF /var/lib/ske/wsdef/ws-fidaplus-SSJ-15-UTF8-JOS-tagset.txt	#manatee@cjvt
+# GDEXDEFAULTCONF "/var/lib/ske/gdex/Slovene-samostalnik-avt-v2"          #manatee@cjvt
+# TERMDEF "/var/lib/ske/wsdef/slovenian-mte-terms-1.3.wsdef.m4"		#manatee@cjvt
+# TERMBASE "/var/lib/ske/manatee/kas_dr_1/terms-ws"			#manatee@cjvt
+
+# WSPOSLIST ",samostalnik,-s,glagol,-g,pridevnik,-p,prislov,-r"		#manatee@cjvt
+WPOSLIST ",samostalnik,S.*,glagol,G.*,pridevnik,P.*,prislov,R.*,zaimek,Z.*,predlog,D.*,veznik,V.*,členek,L.*,medmet,M.*,števnik,K.*,okrajšava,O.*,neuvrščeno,N.*,ločilo,U.*"
+LPOSLIST ",samostalnik,-s,glagol,-g,pridevnik,-p,prislov,-r,zaimek,-z,predlog,-d,veznik,-v,členek,-l,medmet,-m,števnik,-k,okrajšava,-o,neuvrščeno,-n,ločilo,-u"
+
+DOCSTRUCTURE text
+MAXDETAIL 10000
+
+SUBCORPATTRS "text.medium|text.type|text.proofread,text.title|text.publisher|text.date,name.type"
+SHORTREF "=text.id,=text.publisher,=text.date"
+FULLREF "text.author,text.title,text.date,text.publisher,text.medium_id,text.type_id,text.proofread,text.id"
+
+STRUCTURE text {
+    ATTRIBUTE id {
+      TYPE "UNIQUE"
+    }    
+    ATTRIBUTE title
+    ATTRIBUTE author
+    ATTRIBUTE publisher
+    ATTRIBUTE date
+    ATTRIBUTE medium_id
+    ATTRIBUTE medium {
+      MULTIVALUE  "1"
+      MULTISEP ","
+      HIERARCHICAL   "/"
+    }
+    ATTRIBUTE type_id
+    ATTRIBUTE type {
+      MULTIVALUE  "1"
+      MULTISEP ","
+      HIERARCHICAL   "/"
+    }
+    ATTRIBUTE proofread_id
+    ATTRIBUTE proofread {
+      MULTIVALUE  "1"
+      MULTISEP ","
+      HIERARCHICAL   "/"
+    }
+    ATTRIBUTE "wordcount"
+}
+STRUCTURE p {
+    DISPLAYTAG 0
+    DISPLAYEND " ¶ "
+    ATTRIBUTE id {
+      TYPE "UNIQUE"
+    }    
+}
+STRUCTURE s {
+    ATTRIBUTE id {
+      TYPE "UNIQUE"
+    }    
+    DISPLAYTAG 0
+    DISPLAYEND "|"
+}
+STRUCTURE name {
+    ATTRIBUTE type
+    DISPLAYTAG 0
+    DISPLAYBEGIN "[%(type):"
+    DISPLAYEND "]"
+}
+STRUCTURE g {
+    DISPLAYTAG 0
+    DISPLAYBEGIN "_EMPTY_"
+}
+
+###Positional attributes
+ATTRIBUTE word
+ATTRIBUTE lempos {
+	LABEL	"lemma with pos tag"
+}
+ATTRIBUTE tag_en {
+	LABEL	"MSD (English)"
+}
+ATTRIBUTE tag {
+	LABEL	"MSD (Slovene)"
+}
+ATTRIBUTE id {
+	LABEL	"ID of token"
+}
+
+ATTRIBUTE dep_en {
+	LABEL	"Dependency label (English)"
+}
+ATTRIBUTE dep {
+	LABEL	"Dependency label (Slovene)"
+}
+ATTRIBUTE dep_head_lemma {
+	LABEL	"Lemma of the dependency head"
+}
+ATTRIBUTE dep_head_tag_en {
+	LABEL	"MSD of the dependency head (English)"
+}
+ATTRIBUTE dep_head_tag {
+	LABEL	"MSD of the dependency head (Slovene)"
+}
+ATTRIBUTE dep_head_id {
+	LABEL	"ID of the dependency head (English)"
+}
+
+ATTRIBUTE mwe_type {
+	LABEL	"Type of verbal multiword expression"
+}
+ATTRIBUTE mwe_words {
+	LABEL	"Words constituting the verbal multiword expression"
+}
+ATTRIBUTE mwe_lemmas {
+	LABEL	"Lemmas constituting the verbal multiword expression"
+}
+
+# ATTRIBUTE srl_en {
+# 	LABEL	"Semantic role label (English)"
+# }
+# ATTRIBUTE srl {
+# 	LABEL	"Semantic role label (Slovene)"
+# }
+# ATTRIBUTE srl_head_lemma {
+# 	LABEL	"Lemma of the semantic role head"
+# }
+# ATTRIBUTE srl_head_tag_en {
+# 	LABEL	"MSD of the dependency head (English)"
+# }
+# ATTRIBUTE srl_head_tag {
+# 	LABEL	"MSD of the dependency head (Slovene)"
+# }
+# ATTRIBUTE srl_head_id {
+# 	LABEL	"ID of the dependency head"
+# }
+
+ATTRIBUTE lc {
+	LABEL	"word (lowercase)"
+	DYNAMIC  utf8lowercase
+	DYNLIB   internal
+	ARG1     "C"
+	FUNTYPE  s
+	FROMATTR word
+	DYNTYPE  index
+	TRANSQUERY	yes
+}
+ATTRIBUTE norm {
+	LABEL	"normalised word"
+	DYNAMIC  utf8lowercase
+	DYNLIB   internal
+	ARG1     "C"
+	FUNTYPE  s
+	FROMATTR word
+	DYNTYPE  index
+	TRANSQUERY	yes
+}
+ATTRIBUTE lemma {
+	DYNAMIC   "striplastn"
+	DYNLIB    "internal"
+	ARG1      "2"
+	FUNTYPE   "i"
+	FROMATTR  "lempos"
+	TYPE      "index"
+}
+ATTRIBUTE lemma_lc {
+	LABEL	    "lemma (lowercase)"
+	DYNAMIC     "utf8lowercase"
+	DYNLIB      "internal"
+	ARG1        "C"
+	FUNTYPE     "s"
+	FROMATTR    "lemma"
+	TYPE        "index"
+	TRANSQUERY  "yes"
+}
