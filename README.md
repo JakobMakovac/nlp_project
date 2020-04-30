@@ -1,3 +1,10 @@
 # NLP project repository
 
-This is a repository for NLP project. We will work on the topic of named entity recognition with ssj500k dataset
+Repozitorij za projekt pri predmetu obdelava naravnega jezika.
+
+Za poganjanje jupyter notebookov je potrebnih nekaj knjižnic:
+
+
+```
+pip install pycrfsuite lxml sklearn
+```
